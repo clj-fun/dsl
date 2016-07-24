@@ -4,9 +4,9 @@
  :extern trivial.msg
  :const {                      
          :time (DateTime DateUtc (> DateTime.MinValue))
-         :tenant (TenantId TenantId NotNull)
-         :username (string UserName NotNull)
-         :roles ([string] Roles NotNull)
+         :tenant (TenantId TenantId (and NotNull (.Value (> 0))))
+         :username (string UserName (and NotNull (.length (< 24))))
+         :roles ([string] Roles)
          :user (UserId UserId NotNull)
          }
  :aggs

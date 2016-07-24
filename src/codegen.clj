@@ -24,33 +24,35 @@
     [:nl "{" :nl s "}" :nl]
     [" {}" :nl]))
 
+(defn parens [s] ["( " s " )"])
+
 (defn gen-property
   [m]
   (let [{:keys [order prop type]} m]
     ["[DataMember(Order = " order ")] public " type " " prop " { get; private set; }" :nl]))
 
 (defn gen-assignment [m] [(:prop m) " = " (:name m) ";" :nl])
+
+
 (defn gen-assert-body
   [name schema]
   (if-not (sequential? schema)
-    
-    (gen-assert-body name [schema])
-    (let [[op & rest] (vec schema)]
-      (println "Match " name ": " op "/" rest)
-      (case op
-        NotNull ["( " name " != null )"]
-        and ["( " (interpose " && " (map #(gen-assert-body name %) rest)) " )"]
-        > ["( " name " > " (gen-assert-body name rest) " )"]
-        < ["( " name " < " (gen-assert-body name rest) " )"]
-        op)
-      )
-    
-    ))
+    (case schema
+      NotNull [name " != null"]
+      schema)
+    (let [[op & args] schema]
+      (if (str/starts-with? (str op) ".")
+        (gen-assert-body (str name op) (first args))
+        (case op
+          and (interpose " && " (map #(parens (gen-assert-body name %)) args))
+          [ name " " (str op) " " args]
+          )))))
 
 (defn gen-assert
   [f]
   (let [{:keys [schema name]} f]
-    ["if (! " (gen-assert-body name schema) " ) throw new ArgumentException( \"" name "\" );" :nl]))
+    (if schema
+      ["if (!(   " (gen-assert-body name schema) "   ))" :nl :indent " throw new ArgumentException( \"" name "\", \"Violated schema '" (str schema) "'\" );" :nl])))
 
 (defn gen-arg [m] [(:type m) " " (:name m)])
 (defn gen-array-init [m] [(:prop m) " = new " (:array-of m) "[0];" :nl])
