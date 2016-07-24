@@ -32,7 +32,7 @@
   ([type name] (field type name nil))
   ([type name schema] (if (vector? type)
      (let [type (first type)]
-       (assoc (field (str type "[]") name) :array-of (str type)))
+       (assoc (field (str type "[]") name schema) :array-of (str type)))
      {:name (camel (str name)) :type (str type) :prop (pascal (str name)) :schema schema})))
 
 (defn unwrap-field
