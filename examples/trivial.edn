@@ -5,9 +5,9 @@
  :const {                      
          :time (DateTime DateUtc (> DateTime.MinValue))
          :tenant (TenantId TenantId (and NotNull (.Value (> 0))))
-         :username (string UserName (and NotNull (.length (< 24))))
-         :roles ([string] Roles)
-         :user (UserId UserId NotNull)
+         :username (string UserName (and NotNull (.Length (and (< 24) (> 3)))))
+         :roles ([string] Roles (and NotNull (.Length (< 16))))
+         :user (UserId UserId (and NotNull (.Value (> 0))))
          }
  :aggs
  [

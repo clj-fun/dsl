@@ -19,8 +19,10 @@ namespace Trivial
         {
             if (!(   ( tenantId != null ) && ( tenantId.Value > 0 )   ))
                  throw new ArgumentException( "tenantId", "Violated schema '(and NotNull (.Value (> 0)))'" );
-            if (!(   ( userName != null ) && ( userName.length < 24 )   ))
-                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.length (< 24)))'" );
+            if (!(   ( userName != null ) && ( ( userName.Length < 24 ) && ( userName.Length > 3 ) )   ))
+                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.Length (and (< 24) (> 3))))'" );
+            if (!(   ( roles != null ) && ( roles.Length < 16 )   ))
+                 throw new ArgumentException( "roles", "Violated schema '(and NotNull (.Length (< 16)))'" );
             TenantId = tenantId;
             UserName = userName;
             Roles = roles;
@@ -44,10 +46,12 @@ namespace Trivial
         {
             if (!(   ( tenantId != null ) && ( tenantId.Value > 0 )   ))
                  throw new ArgumentException( "tenantId", "Violated schema '(and NotNull (.Value (> 0)))'" );
-            if (!(   userId != null   ))
-                 throw new ArgumentException( "userId", "Violated schema 'NotNull'" );
-            if (!(   ( userName != null ) && ( userName.length < 24 )   ))
-                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.length (< 24)))'" );
+            if (!(   ( userId != null ) && ( userId.Value > 0 )   ))
+                 throw new ArgumentException( "userId", "Violated schema '(and NotNull (.Value (> 0)))'" );
+            if (!(   ( userName != null ) && ( ( userName.Length < 24 ) && ( userName.Length > 3 ) )   ))
+                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.Length (and (< 24) (> 3))))'" );
+            if (!(   ( roles != null ) && ( roles.Length < 16 )   ))
+                 throw new ArgumentException( "roles", "Violated schema '(and NotNull (.Length (< 16)))'" );
             if (!(   dateUtc > DateTime.MinValue   ))
                  throw new ArgumentException( "dateUtc", "Violated schema '(> DateTime.MinValue)'" );
             TenantId = tenantId;
@@ -73,8 +77,10 @@ namespace Trivial
         {
             if (!(   ( tenantId != null ) && ( tenantId.Value > 0 )   ))
                  throw new ArgumentException( "tenantId", "Violated schema '(and NotNull (.Value (> 0)))'" );
-            if (!(   userId != null   ))
-                 throw new ArgumentException( "userId", "Violated schema 'NotNull'" );
+            if (!(   ( userId != null ) && ( userId.Value > 0 )   ))
+                 throw new ArgumentException( "userId", "Violated schema '(and NotNull (.Value (> 0)))'" );
+            if (!(   ( roles != null ) && ( roles.Length < 16 )   ))
+                 throw new ArgumentException( "roles", "Violated schema '(and NotNull (.Length (< 16)))'" );
             TenantId = tenantId;
             UserId = userId;
             Roles = roles;
@@ -98,10 +104,12 @@ namespace Trivial
         {
             if (!(   ( tenantId != null ) && ( tenantId.Value > 0 )   ))
                  throw new ArgumentException( "tenantId", "Violated schema '(and NotNull (.Value (> 0)))'" );
-            if (!(   userId != null   ))
-                 throw new ArgumentException( "userId", "Violated schema 'NotNull'" );
-            if (!(   ( userName != null ) && ( userName.length < 24 )   ))
-                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.length (< 24)))'" );
+            if (!(   ( userId != null ) && ( userId.Value > 0 )   ))
+                 throw new ArgumentException( "userId", "Violated schema '(and NotNull (.Value (> 0)))'" );
+            if (!(   ( userName != null ) && ( ( userName.Length < 24 ) && ( userName.Length > 3 ) )   ))
+                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.Length (and (< 24) (> 3))))'" );
+            if (!(   ( roles != null ) && ( roles.Length < 16 )   ))
+                 throw new ArgumentException( "roles", "Violated schema '(and NotNull (.Length (< 16)))'" );
             if (!(   dateUtc > DateTime.MinValue   ))
                  throw new ArgumentException( "dateUtc", "Violated schema '(> DateTime.MinValue)'" );
             TenantId = tenantId;
@@ -123,8 +131,8 @@ namespace Trivial
         {
             if (!(   ( tenantId != null ) && ( tenantId.Value > 0 )   ))
                  throw new ArgumentException( "tenantId", "Violated schema '(and NotNull (.Value (> 0)))'" );
-            if (!(   userId != null   ))
-                 throw new ArgumentException( "userId", "Violated schema 'NotNull'" );
+            if (!(   ( userId != null ) && ( userId.Value > 0 )   ))
+                 throw new ArgumentException( "userId", "Violated schema '(and NotNull (.Value (> 0)))'" );
             TenantId = tenantId;
             UserId = userId;
         }
@@ -147,10 +155,12 @@ namespace Trivial
         {
             if (!(   ( tenantId != null ) && ( tenantId.Value > 0 )   ))
                  throw new ArgumentException( "tenantId", "Violated schema '(and NotNull (.Value (> 0)))'" );
-            if (!(   userId != null   ))
-                 throw new ArgumentException( "userId", "Violated schema 'NotNull'" );
-            if (!(   ( userName != null ) && ( userName.length < 24 )   ))
-                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.length (< 24)))'" );
+            if (!(   ( userId != null ) && ( userId.Value > 0 )   ))
+                 throw new ArgumentException( "userId", "Violated schema '(and NotNull (.Value (> 0)))'" );
+            if (!(   ( userName != null ) && ( ( userName.Length < 24 ) && ( userName.Length > 3 ) )   ))
+                 throw new ArgumentException( "userName", "Violated schema '(and NotNull (.Length (and (< 24) (> 3))))'" );
+            if (!(   ( roles != null ) && ( roles.Length < 16 )   ))
+                 throw new ArgumentException( "roles", "Violated schema '(and NotNull (.Length (< 16)))'" );
             if (!(   dateUtc > DateTime.MinValue   ))
                  throw new ArgumentException( "dateUtc", "Violated schema '(> DateTime.MinValue)'" );
             TenantId = tenantId;
