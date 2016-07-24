@@ -17,8 +17,9 @@ namespace Trivial
         
         public AddUser (TenantId tenantId, string userName, string[] roles)
         {
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
-            if ( userName == null ) throw new ArgumentNullException( "userName" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (! ( userName != null ) ) throw new ArgumentException( "userName" );
+            if (! ( roles != null ) ) throw new ArgumentException( "roles" );
             TenantId = tenantId;
             UserName = userName;
             Roles = roles;
@@ -40,9 +41,11 @@ namespace Trivial
         
         public UserAdded (TenantId tenantId, UserId userId, string userName, string[] roles, DateTime dateUtc)
         {
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
-            if ( userId == null ) throw new ArgumentNullException( "userId" );
-            if ( userName == null ) throw new ArgumentNullException( "userName" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (! ( userId != null ) ) throw new ArgumentException( "userId" );
+            if (! ( userName != null ) ) throw new ArgumentException( "userName" );
+            if (! ( roles != null ) ) throw new ArgumentException( "roles" );
+            if (! ( dateUtc > DateTime.MinValue ) ) throw new ArgumentException( "dateUtc" );
             TenantId = tenantId;
             UserId = userId;
             UserName = userName;
@@ -64,8 +67,9 @@ namespace Trivial
         
         public UpdateUserRoles (TenantId tenantId, UserId userId, string[] roles)
         {
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
-            if ( userId == null ) throw new ArgumentNullException( "userId" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (! ( userId != null ) ) throw new ArgumentException( "userId" );
+            if (! ( roles != null ) ) throw new ArgumentException( "roles" );
             TenantId = tenantId;
             UserId = userId;
             Roles = roles;
@@ -87,9 +91,11 @@ namespace Trivial
         
         public UserRolesUpdated (TenantId tenantId, UserId userId, string userName, string[] roles, DateTime dateUtc)
         {
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
-            if ( userId == null ) throw new ArgumentNullException( "userId" );
-            if ( userName == null ) throw new ArgumentNullException( "userName" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (! ( userId != null ) ) throw new ArgumentException( "userId" );
+            if (! ( userName != null ) ) throw new ArgumentException( "userName" );
+            if (! ( roles != null ) ) throw new ArgumentException( "roles" );
+            if (! ( dateUtc > DateTime.MinValue ) ) throw new ArgumentException( "dateUtc" );
             TenantId = tenantId;
             UserId = userId;
             UserName = userName;
@@ -107,8 +113,8 @@ namespace Trivial
         
         public DeleteUser (TenantId tenantId, UserId userId)
         {
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
-            if ( userId == null ) throw new ArgumentNullException( "userId" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (! ( userId != null ) ) throw new ArgumentException( "userId" );
             TenantId = tenantId;
             UserId = userId;
         }
@@ -129,9 +135,11 @@ namespace Trivial
         
         public UserDeleted (TenantId tenantId, UserId userId, string userName, string[] roles, DateTime dateUtc)
         {
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
-            if ( userId == null ) throw new ArgumentNullException( "userId" );
-            if ( userName == null ) throw new ArgumentNullException( "userName" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (! ( userId != null ) ) throw new ArgumentException( "userId" );
+            if (! ( userName != null ) ) throw new ArgumentException( "userName" );
+            if (! ( roles != null ) ) throw new ArgumentException( "roles" );
+            if (! ( dateUtc > DateTime.MinValue ) ) throw new ArgumentException( "dateUtc" );
             TenantId = tenantId;
             UserId = userId;
             UserName = userName;

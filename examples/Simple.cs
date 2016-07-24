@@ -16,6 +16,7 @@ namespace SkuVault.Sample
         
         public EventStreamStarted (DateTime dateUtc)
         {
+            if (!  ) throw new ArgumentException( "dateUtc" );
             DateUtc = dateUtc;
         }
         
@@ -37,8 +38,9 @@ namespace SkuVault.Sample
         
         public CommandUsingReferences (RefInfo refInfo, TenantId tenantId, DateTime dateUtc)
         {
-            if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
+            if (! ( refInfo != null ) ) throw new ArgumentException( "refInfo" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (!  ) throw new ArgumentException( "dateUtc" );
             RefInfo = refInfo;
             TenantId = tenantId;
             DateUtc = dateUtc;
@@ -58,7 +60,9 @@ namespace SkuVault.Sample
         
         public CommandWithArrayAndNullable (RefInfo refInfo, int? maybeInt, string[] array)
         {
-            if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
+            if (! ( refInfo != null ) ) throw new ArgumentException( "refInfo" );
+            if (!  ) throw new ArgumentException( "maybeInt" );
+            if (!  ) throw new ArgumentException( "array" );
             RefInfo = refInfo;
             MaybeInt = maybeInt;
             Array = array;
@@ -75,8 +79,9 @@ namespace SkuVault.Sample
         
         public EventWithSkippedOrders (RefInfo refInfo, TenantId tenantId, string title)
         {
-            if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
-            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
+            if (! ( refInfo != null ) ) throw new ArgumentException( "refInfo" );
+            if (! ( tenantId != null ) ) throw new ArgumentException( "tenantId" );
+            if (!  ) throw new ArgumentException( "title" );
             RefInfo = refInfo;
             TenantId = tenantId;
             Title = title;

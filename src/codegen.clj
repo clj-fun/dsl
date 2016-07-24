@@ -1,5 +1,8 @@
 (ns codegen
-  (:require [clojure.string :as str]))
+  (:require
+   [clojure.string :as str]
+   [clojure.core.match :refer [match]]
+   ))
 
 (defn indent
   "Indents a code block by inserting :indent before lines"
@@ -27,12 +30,27 @@
     ["[DataMember(Order = " order ")] public " type " " prop " { get; private set; }" :nl]))
 
 (defn gen-assignment [m] [(:prop m) " = " (:name m) ";" :nl])
+(defn gen-assert-body
+  [name schema]
+  (if-not (sequential? schema)
+    
+    (gen-assert-body name [schema])
+    (let [[op & rest] (vec schema)]
+      (println "Match " name ": " op "/" rest)
+      (case op
+        NotNull ["( " name " != null )"]
+        and ["( " (interpose " && " (map #(gen-assert-body name %) rest)) " )"]
+        > ["( " name " > " (gen-assert-body name rest) " )"]
+        < ["( " name " < " (gen-assert-body name rest) " )"]
+        op)
+      )
+    
+    ))
+
 (defn gen-assert
   [f]
   (let [{:keys [schema name]} f]
-    (case schema
-      'NotNull ["if ( " name " == null ) throw new ArgumentNullException( \"" name "\" );" :nl]
-      nil)))
+    ["if (! " (gen-assert-body name schema) " ) throw new ArgumentException( \"" name "\" );" :nl]))
 
 (defn gen-arg [m] [(:type m) " " (:name m)])
 (defn gen-array-init [m] [(:prop m) " = new " (:array-of m) "[0];" :nl])

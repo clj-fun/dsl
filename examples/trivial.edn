@@ -3,7 +3,7 @@
  :file trivial.cs
  :extern trivial.msg
  :const {                      
-         :time (DateTime DateUtc)
+         :time (DateTime DateUtc (> DateTime.MinValue))
          :tenant (TenantId TenantId NotNull)
          :username (string UserName NotNull)
          :roles ([string] Roles NotNull)
