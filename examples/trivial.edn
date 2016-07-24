@@ -29,6 +29,5 @@
     (evt UserDeleted (:user :username :roles :time))
     ]
    }
-
   ]
  }
