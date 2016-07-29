@@ -1,5 +1,6 @@
 (ns model
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.walk :as walk]))
 
 (defn- switch-case [s fn]
   (let [[first & rest] s]
@@ -43,7 +44,7 @@
         id (if-not (seq? fld) fld)
         f (apply field tuple)
         schema (:schema f)
-        schema (get-in agg [:schema schema] schema)
+        schema (walk/prewalk #(if (keyword? %) (get-in agg [:schema %]) %) schema)
         ]
     (assoc (apply field tuple) :id id :order (inc index) :schema schema)))
 
