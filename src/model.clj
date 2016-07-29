@@ -61,14 +61,16 @@
      }
     ))
 
-(defn unwrap-agg- [file-const file-extern agg]
+(defn unwrap-agg- [cfg agg]
   (let [
+        ;; transfer const into agg 
+        agg (merge-with merge agg (select-keys cfg [:const]))
+        extern (:extern cfg)
         {:keys [event command const messages]} agg
-        const (merge file-const const)
         ]
     (println (str "    - aggregate " (or (:name agg) "default")))
-    (assoc agg :messages (map #(unwrap-message- % agg const file-extern) messages))))
+    (assoc agg :messages (map #(unwrap-message- % agg const extern) messages))))
 
 (defn dsl->model [cfg]
   (let [{:keys [const aggs extern]} cfg]
-    (assoc cfg :aggs (map #(unwrap-agg- const extern %) aggs))))
+    (assoc cfg :aggs (map #(unwrap-agg- cfg %) aggs))))
