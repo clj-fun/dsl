@@ -2,13 +2,19 @@
  :namespace Trivial
  :file trivial.cs
  :extern trivial.msg
+ :schema {
+          :date (> DateTime.MinValue)
+          :positiveId (and NotNull (.Value (> 0)))
+          :username (and NotNull (.Length (and (< 24) (> 3))))
+          }
  :const {                      
-         :time (DateTime DateUtc (> DateTime.MinValue))
-         :tenant (TenantId TenantId (and NotNull (.Value (> 0))))
-         :username (string UserName (and NotNull (.Length (and (< 24) (> 3)))))
+         :time (DateTime DateUtc :date)
+         :tenant (TenantId TenantId :positiveId)
+         :username (string UserName :username)
          :roles ([string] Roles (and NotNull (.Length (< 16))))
-         :user (UserId UserId (and NotNull (.Value (> 0))))
+         :user (UserId UserId :positiveId)
          }
+ 
  :aggs
  [
   {

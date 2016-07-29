@@ -37,18 +37,21 @@
 
 (defn unwrap-field
   "field can be :const [type] [type name] [type name schema]"
-  [index fld const]
+  [index fld agg]
   (let [
-        tuple (get const fld fld)
+        tuple (if (keyword? fld) (get-in agg [:const fld]) fld) 
         id (if-not (seq? fld) fld)
+        f (apply field tuple)
+        schema (:schema f)
+        schema (get-in agg [:schema schema] schema)
         ]
-    (assoc (apply field tuple) :id id :order (inc index))))
+    (assoc (apply field tuple) :id id :order (inc index) :schema schema)))
 
 (defn unwrap-message- [msg agg const extern]
   (let [
         [kind id fs txt] msg
         fs (if (= kind 'rec) fs  (concat (:common agg) fs))
-        clean (filter some? (map-indexed #(if %2 (unwrap-field %1 %2 const)) fs))
+        clean (filter some? (map-indexed #(if %2 (unwrap-field %1 %2 agg)) fs))
         hs (if txt (interpolate txt clean))
         ]
     {
@@ -64,7 +67,7 @@
 (defn unwrap-agg- [cfg agg]
   (let [
         ;; transfer const into agg 
-        agg (merge-with merge agg (select-keys cfg [:const]))
+        agg (merge-with merge agg (select-keys cfg [:const :schema]))
         extern (:extern cfg)
         {:keys [event command const messages]} agg
         ]
