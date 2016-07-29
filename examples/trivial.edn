@@ -6,6 +6,7 @@
           :date (> DateTime.MinValue)
           :positiveId (and NotNull (.Value (> 0)))
           :username (and NotNull (.Length (and (< 24) (> 3))))
+          :refInfo (and NotNull (.TenantId :positiveId) (.SentUtc :date))
           }
  :const {                      
          :time (DateTime DateUtc :date)
@@ -13,6 +14,7 @@
          :username (string UserName :username)
          :roles ([string] Roles (and NotNull (.Length (< 16))))
          :user (UserId UserId :positiveId)
+         :refInfo (RefInfo RefInfo :refInfo)
          }
  
  :aggs
@@ -26,7 +28,7 @@
    [
     
     (cmd AddUser (:username :roles))
-    (evt UserAdded (:user :username :roles :time))
+    (evt UserAdded (:user :username :roles :refInfo))
 
     (cmd UpdateUserRoles (:user :roles))
     (evt UserRolesUpdated (:user :username :roles :time))

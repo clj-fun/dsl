@@ -35,14 +35,14 @@ namespace Trivial
         [DataMember(Order = 2)] public UserId UserId { get; private set; }
         [DataMember(Order = 3)] public string UserName { get; private set; }
         [DataMember(Order = 4)] public string[] Roles { get; private set; }
-        [DataMember(Order = 5)] public DateTime DateUtc { get; private set; }
+        [DataMember(Order = 5)] public RefInfo RefInfo { get; private set; }
         
         UserAdded ()
         {
             Roles = new string[0];
         }
         
-        public UserAdded (TenantId tenantId, UserId userId, string userName, string[] roles, DateTime dateUtc)
+        public UserAdded (TenantId tenantId, UserId userId, string userName, string[] roles, RefInfo refInfo)
         {
             if (!(   ( tenantId != null ) && ( tenantId.Value > 0 )   ))
                  throw new ArgumentException( "tenantId", "Violated schema '(and NotNull (.Value (> 0)))'" );
@@ -52,13 +52,13 @@ namespace Trivial
                  throw new ArgumentException( "userName", "Violated schema '(and NotNull (.Length (and (< 24) (> 3))))'" );
             if (!(   ( roles != null ) && ( roles.Length < 16 )   ))
                  throw new ArgumentException( "roles", "Violated schema '(and NotNull (.Length (< 16)))'" );
-            if (!(   dateUtc > DateTime.MinValue   ))
-                 throw new ArgumentException( "dateUtc", "Violated schema '(> DateTime.MinValue)'" );
+            if (!(   ( refInfo != null ) && ( ( refInfo.TenantId != null ) && ( refInfo.TenantId.Value > 0 ) ) && ( refInfo.SentUtc > DateTime.MinValue )   ))
+                 throw new ArgumentException( "refInfo", "Violated schema '(and NotNull (.TenantId (and NotNull (.Value (> 0)))) (.SentUtc (> DateTime.MinValue)))'" );
             TenantId = tenantId;
             UserId = userId;
             UserName = userName;
             Roles = roles;
-            DateUtc = dateUtc;
+            RefInfo = refInfo;
         }
     }
     [DataContract(Namespace = "trivial.msg")]
