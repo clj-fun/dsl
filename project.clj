@@ -7,7 +7,9 @@
                  [org.clojure/core.match "0.3.0-alpha4"] ; optimized pattern matching for clojure
                  ]
   :main core
+  :aot :all
   :uberjar-name ~(str "dsl-%s-"
                       (-> (clojure.java.shell/sh "git" "rev-parse" "--short" "HEAD") :out .trim)
                       ".uber.jar")
+  :profiles {:uberjar {:aot :all}}
   )
