@@ -27,29 +27,12 @@
          }
  ;; aggregates are defined under :aggs        
  :aggs [
-        {
-         ;; aggregate without name is "func" aggregate
-
-         ;; all commands will inherit from this interface
-         :cmd IFuncCommand
-         ;; all events will inherit from this interface
-         :evt IFuncEvent           
-         ;; this is where we declare messages for the aggregate
-         :messages [
-                    ;; events are declared like this:
-                    ;; (evt EventName [fields] "string format {like} SeriLog"]
-                    ;; fields are either references to previously defined constants
-                    ;; or you could define them in-line as well
-                    (evt EventStreamStarted [:time] "Started on {time}")
-                    ;; command is similar but starts with cmd
-                    (cmd FindAssembly[])
-                    ]
-         }
-        {
+         {
          ;; providing an aggregate name will generate proper interfaces
          :name Sales               
-         ;; generics work fine
+         ;; all commands will inherit from this interface
          :cmd ICommand<SaleId>
+         ;; all events will inherit from this interface
          :evt IEvent<SaleId>
          ;; you can define shortcuts specific to this aggregate
          ;; they will override the ones from the file
@@ -59,14 +42,31 @@
                  }
          ;; all messages in this aggregate will start with these fields
          :common [:refInfo]
-         
+         ;; this is where we declare messages for the aggregate
          :messages [
-                    (cmd CommandUsingReferences [:tenantId :time])
+                    ;; commands are declared like this:
+                    ;; (cmd CommandName [field1 field2 ...] "string format {like} SeriLog"]
+                    ;; fields are either references to previously defined constants
+                    ;; or you could define them in-line as well
+                    (cmd CommandUsingReferences [:tenantId :time] "Started on {time}")
                     ;; this is an example of command that has arrays and nullables
                     ;; that are defined inline                    
                     (cmd CommandWithArrayAndNullable [(int? maybeInt) ([string] array) ])
                     ;; this event has a few fields skipped in the order
                     (evt EventWithSkippedOrders [:tenantId nil nil (string Title)])
+                    ]
+         }
+        {
+         ;; aggregate without name is "func" aggregate
+
+         ;; all commands will inherit from this interface
+         :cmd IFuncCommand
+         ;; all events will inherit from this interface
+         :evt IFuncEvent           
+         
+         :messages [
+                    (evt EventStreamStarted [:time] "Started on {time}")
+                    (cmd FindAssembly[])
                     ]
          }
         ]
