@@ -1,17 +1,28 @@
+;; this file demonstrates some trivial schemas
 {
  :namespace Trivial
  :file trivial.cs
  :extern trivial.msg
+ ;; these are schema definitions
  :schema {
+          ;; schema definition is (:name (How the data should look like))
+          ;; in LISP syntax method names are put inside parentheses
+          ;; this says "THIS>DateTime.MinValue"
           :date (> DateTime.MinValue)
+          ;; this says THIS is NotNull and (THIS.Value > 0) 
           :positiveId (and NotNull (.Value (> 0)))
+          ;; "THIS is NotNull and (THIS.Length is (less than 24) and (greater than 3))"
           :username (and NotNull (.Length (and (< 24) (> 3))))
+          ;; this schema is composed from a few more simple schema definitions
+          ;; "THIS is NotNull and (THIS.TenantId is :positiveId) and (THIS.SentUtc id :date)"
           :refInfo (and NotNull (.TenantId :positiveId) (.SentUtc :date))
           }
- :const {                      
+ :const {
+         ;; you can specify name of the schema as 3rd parameter in field declaration
          :time (DateTime DateUtc :date)
          :tenant (TenantId TenantId :positiveId)
          :username (string UserName :username)
+         ;; you can also have inline schemas.
          :roles ([string] Roles (and NotNull (.Length (< 16))))
          :user (UserId UserId :positiveId)
          :refInfo (RefInfo RefInfo :refInfo)
