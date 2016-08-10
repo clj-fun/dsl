@@ -12,7 +12,7 @@
        (filter some?)
        (reduce
         (fn [agg next]
-          (if (or (empty? agg) (= :nl (last agg)))
+          (if (or (empty? agg) (= :nl (peek agg)))
             (conj agg :indent next)
             (conj agg next)))
         [])))
