@@ -58,9 +58,9 @@
                  :tenantId (TenantId tenantId) 
                  }
          ;; all messages in this aggregate will start with these fields
+         :common [:refInfo]
          
-         :common [:refInfo]       
-            :messages [
+         :messages [
                     (cmd CommandUsingReferences [:tenantId :time])
                     ;; this is an example of command that has arrays and nullables
                     ;; that are defined inline                    
