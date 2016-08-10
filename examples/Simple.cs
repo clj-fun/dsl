@@ -37,10 +37,6 @@ namespace SkuVault.Sample
         
         public CommandUsingReferences (RefInfo refInfo, TenantId tenantId, DateTime dateUtc)
         {
-            if (!(   refInfo != null   ))
-                 throw new ArgumentException( "refInfo", "Violated schema 'NotNull'" );
-            if (!(   tenantId != null   ))
-                 throw new ArgumentException( "tenantId", "Violated schema 'NotNull'" );
             RefInfo = refInfo;
             TenantId = tenantId;
             DateUtc = dateUtc;
@@ -60,8 +56,6 @@ namespace SkuVault.Sample
         
         public CommandWithArrayAndNullable (RefInfo refInfo, int? maybeInt, string[] array)
         {
-            if (!(   refInfo != null   ))
-                 throw new ArgumentException( "refInfo", "Violated schema 'NotNull'" );
             RefInfo = refInfo;
             MaybeInt = maybeInt;
             Array = array;
@@ -78,10 +72,6 @@ namespace SkuVault.Sample
         
         public EventWithSkippedOrders (RefInfo refInfo, TenantId tenantId, string title)
         {
-            if (!(   refInfo != null   ))
-                 throw new ArgumentException( "refInfo", "Violated schema 'NotNull'" );
-            if (!(   tenantId != null   ))
-                 throw new ArgumentException( "tenantId", "Violated schema 'NotNull'" );
             RefInfo = refInfo;
             TenantId = tenantId;
             Title = title;

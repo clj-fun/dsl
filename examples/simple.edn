@@ -1,49 +1,69 @@
-{
- ;; similar to using in ddd file
+;; this is how you define comments
+{ 
+ ;; symbols defined in :using will be added as "using xxxxx;" to C# 
  :using [
          Abstractions
          System
          System.Collections.Generic
          System.Runtime.Serialization
          ]
- ;; similar to namespace in ddd file
+ ;; defines .NET namespace for generated code
  :namespace SkuVault.Sample
  ;; name of the file to generate
  :file Simple.cs
- ;; similar to extern in ddd file
+ ;; defines namespace attribute for the data contracts
  :extern SkuVault.Sample-ns
- ;; similar to const in ddd file. Shortcuts for common fields
+ ;; you can define frequently used fields here once and then refer to them
+ ;; later. Format is ":name (FieldType FieldName)". You can have as many
+ ;; definitions as you want
  :const {                      
+         ;; this will declare a DateTime field
          :time (DateTime DateUtc)
+         ;; this is how you declare an array of ints
+         ;; arrays will be inizialized to an empty array in private ctor
+         :array-of-int ([int] Numbers)
+         ;; nullable types work as well
+         :nullable-bool (bool? Option)
          }
+ ;; aggregates are defined under :aggs        
  :aggs [
         {
          ;; aggregate without name is "func" aggregate
+
          ;; all commands will inherit from this interface
          :cmd IFuncCommand
          ;; all events will inherit from this interface
          :evt IFuncEvent           
+         ;; this is where we declare messages for the aggregate
          :messages [
-                    ;; format of messages is [:kind Name [fields] toString]
+                    ;; events are declared like this:
+                    ;; (evt EventName [fields] "string format {like} SeriLog"]
+                    ;; fields are either references to previously defined constants
+                    ;; or you could define them in-line as well
                     (evt EventStreamStarted [:time] "Started on {time}")
+                    ;; command is similar but starts with cmd
                     (cmd FindAssembly[])
                     ]
          }
         {
-         ;; aggregate name
+         ;; providing an aggregate name will generate proper interfaces
          :name Sales               
+         ;; generics work fine
          :cmd ICommand<SaleId>
          :evt IEvent<SaleId>
-         ;; shortcuts specific to this aggregate
+         ;; you can define shortcuts specific to this aggregate
+         ;; they will override the ones from the file
          :const {                  
-                 :refInfo (RefInfo refInfo NotNull)
-                 :tenantId (TenantId tenantId NotNull) 
+                 :refInfo (RefInfo refInfo)
+                 :tenantId (TenantId tenantId) 
                  }
          ;; all messages in this aggregate will start with these fields
+         
          :common [:refInfo]       
-         :messages [
+            :messages [
                     (cmd CommandUsingReferences [:tenantId :time])
-                    ;; this is an example of command that has arrays and nullables                    
+                    ;; this is an example of command that has arrays and nullables
+                    ;; that are defined inline                    
                     (cmd CommandWithArrayAndNullable [(int? maybeInt) ([string] array) ])
                     ;; this event has a few fields skipped in the order
                     (evt EventWithSkippedOrders [:tenantId nil nil (string Title)])
