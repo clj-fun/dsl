@@ -64,7 +64,7 @@ namespace SkuVault.Sample
         }
     }
     [DataContract(Namespace = "SkuVault.Sample-ns")]
-    public partial class EventStreamStarted : IFuncEvent
+    public partial class EventStreamStarted : IFuncEvent, IDontLog
     {
         [DataMember(Order = 1)] public DateTime DateUtc { get; private set; }
         

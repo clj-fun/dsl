@@ -1,6 +1,6 @@
 ;; this is how you define comments
-{ 
- ;; symbols defined in :using will be added as "using xxxxx;" to C# 
+{
+ ;; symbols defined in :using will be added as "using xxxxx;" to C#
  :using [
          Abstractions
          System
@@ -16,7 +16,7 @@
  ;; you can define frequently used fields here once and then refer to them
  ;; later. Format is ":name (FieldType FieldName)". You can have as many
  ;; definitions as you want
- :const {                      
+ :const {
          ;; this will declare a DateTime field
          :time (DateTime DateUtc)
          ;; this is how you declare an array of ints
@@ -25,20 +25,20 @@
          ;; nullable types work as well
          :nullable-bool (bool? Option)
          }
- ;; aggregates are defined under :aggs        
+ ;; aggregates are defined under :aggs
  :aggs [
          {
          ;; providing an aggregate name will generate proper interfaces
-         :name Sales               
+         :name Sales
          ;; all commands will inherit from this interface
          :cmd ICommand<SaleId>
          ;; all events will inherit from this interface
          :evt IEvent<SaleId>
          ;; you can define shortcuts specific to this aggregate
          ;; they will override the ones from the file
-         :const {                  
+         :const {
                  :refInfo (RefInfo refInfo)
-                 :tenantId (TenantId tenantId) 
+                 :tenantId (TenantId tenantId)
                  }
          ;; all messages in this aggregate will start with these fields
          :common [:refInfo]
@@ -50,7 +50,7 @@
                     ;; or you could define them in-line as well
                     (cmd CommandUsingReferences [:tenantId :time] "Started on {time}")
                     ;; this is an example of command that has arrays and nullables
-                    ;; that are defined inline                    
+                    ;; that are defined inline
                     (cmd CommandWithArrayAndNullable [(int? maybeInt) ([string] array) ])
                     ;; this event has a few fields skipped in the order
                     (evt EventWithSkippedOrders [:tenantId nil nil (string Title)])
@@ -62,10 +62,11 @@
          ;; all commands will inherit from this interface
          :cmd IFuncCommand
          ;; all events will inherit from this interface
-         :evt IFuncEvent           
-         
+         :evt IFuncEvent
+
          :messages [
-                    (evt EventStreamStarted [:time] "Started on {time}")
+                    ;; add don't log interface
+                    (evt EventStreamStarted [:time] "Started on {time}" {:base IDontLog})
                     (cmd FindAssembly[])
                     ]
          }
