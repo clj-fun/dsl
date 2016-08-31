@@ -12,7 +12,7 @@
 (defn- interpolate
   "Takes a string and a collection of fields to create a .NET format string"
   [s fields]
-  (take 2 
+  (take 2
         (reduce
          (fn [acc field]
            (let [
@@ -40,7 +40,7 @@
   "field can be :const [type] [type name] [type name schema]"
   [index fld agg]
   (let [
-        tuple (if (keyword? fld) (get-in agg [:const fld]) fld) 
+        tuple (if (keyword? fld) (get-in agg [:const fld]) fld)
         id (if-not (seq? fld) fld)
         f (apply field tuple)
         schema (:schema f)
@@ -48,26 +48,37 @@
         ]
     (assoc (apply field tuple) :id id :order (inc index) :schema schema)))
 
+(defn ->seq
+  "Convert symbol to vector or return it"
+  [x]
+  (cond
+    (nil? x)
+    nil (sequential? x) x
+    :else (vector x)))
+
 (defn unwrap-message- [msg agg const extern]
   (let [
-        [kind id fs txt] msg
+        [kind id fs txt cfg] msg
         fs (if (= kind 'rec) fs  (concat (:common agg) fs))
         clean (filter some? (map-indexed #(if %2 (unwrap-field %1 %2 agg)) fs))
         hs (if txt (interpolate txt clean))
+        ;; We take base from the aggregate (by kind) and concat
+        ;; with message-level additions
+        base (->> kind keyword agg ->seq (concat (->seq (:base cfg))) (apply hash-set))
         ]
     {
      :name id
-     :fields clean 
+     :fields clean
      :string hs
      :kind kind
-     :base ((keyword kind) agg)
+     :base base
      :extern extern
      }
     ))
 
 (defn unwrap-agg- [cfg agg]
   (let [
-        ;; transfer const into agg 
+        ;; transfer const into agg
         agg (merge-with merge agg (select-keys cfg [:const :schema]))
         extern (:extern cfg)
         {:keys [event command const messages]} agg
